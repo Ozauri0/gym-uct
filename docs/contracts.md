@@ -11,7 +11,6 @@
   ```
   Authorization: Bearer <token>
   ```
-
 ---
 
 ## Endpoints
