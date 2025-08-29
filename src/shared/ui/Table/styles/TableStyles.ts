@@ -1,4 +1,4 @@
-import { TABLE_SIZES, TABLE_SPACING, TABLE_ALIGNMENT } from '../constants'
+import { TABLE_SIZES, TABLE_SPACING, TABLE_ALIGNMENT } from './variants'
 
 export class TableStyleBuilder {
     static buildTableStyles(size: string, className?: string): string {

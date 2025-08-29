@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { TableProps } from './types'
-import { TABLE_DEFAULT_VALUES } from './constants'
+import { TABLE_DEFAULT_VALUES } from './styles/variants'
 import { TableStyleBuilder } from './styles/TableStyles'
 import { TableHeader } from './TableHeader'
 import { TableBody } from './TableBody'

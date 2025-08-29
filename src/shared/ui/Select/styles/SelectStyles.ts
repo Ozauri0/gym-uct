@@ -1,4 +1,4 @@
-import { SELECT_SIZES, SELECT_STYLES } from '../constants'
+import { SELECT_SIZES, SELECT_STYLES } from './variants'
 
 export class SelectStyleBuilder {
     static buildTriggerStyles(

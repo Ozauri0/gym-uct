@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { PaginationProps } from './types'
-import { PAGINATION_OPTIONS } from './constants'
+import { PAGINATION_OPTIONS } from './styles/variants'
 
 export const TablePagination: React.FC<PaginationProps> = ({
     currentPage,

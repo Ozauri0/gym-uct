@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react'
 import { SelectProps, SelectValue } from './types'
-import { SELECT_DEFAULT_VALUES } from './constants'
+import { SELECT_DEFAULT_VALUES } from './styles/variants'
 import { SelectTrigger } from './SelectTrigger'
 import { SelectContent } from './SelectContent'
 import { SelectLabel as SelectLabelComponent } from './SelectLabel'
