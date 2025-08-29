@@ -1,10 +1,19 @@
 const express = require('express');
-const cors = require('cors');
 const dotenv = require('dotenv');
 const connectDB = require('./config/database');
 const config = require('./config/config');
 const colors = require('colors');
 const showBanner = require('./config/banner');
+
+// Importar middlewares
+const { 
+  helmet, 
+  cors, 
+  logger, 
+  validateJSON, 
+  errorHandler, 
+  notFoundHandler 
+} = require('./middlewares');
 
 // Configuración de colores
 colors.enable();
@@ -25,16 +34,17 @@ connectDB();
 const app = express();
 const PORT = config.PORT;
 
-// Middleware
-app.use(cors());
+// Middlewares de seguridad
+app.use(helmet());
+app.use(cors);
+
+// Middleware para parsing JSON con validación
 app.use(express.json());
+app.use(validateJSON);
 app.use(express.urlencoded({ extended: true }));
 
-// Logger middleware
-app.use((req, res, next) => {
-  console.log(`${colors.yellow('➤')} ${colors.cyan(new Date().toISOString())} ${colors.green(req.method)} ${colors.yellow(req.url)}`);
-  next();
-});
+// Middleware de logging
+app.use(logger);
 
 // Importar rutas
 const userRoutes = require('./routes/users');
@@ -54,24 +64,11 @@ app.get('/', (req, res) => {
 // Usar rutas
 app.use('/api/users', userRoutes);
 
-// Manejo de errores global
-app.use((err, req, res, next) => {
-  console.error(`${colors.red('✖ ERROR:')} ${err.stack}`);
-  res.status(500).json({
-    success: false,
-    message: 'Error en el servidor',
-    error: config.NODE_ENV === 'development' ? err.message : {}
-  });
-});
+// Manejo de rutas no encontradas (debe ir después de todas las rutas)
+app.use(notFoundHandler);
 
-// 404 - Ruta no encontrada
-app.use((req, res) => {
-  console.log(`${colors.yellow('⚠')} Ruta no encontrada: ${req.originalUrl}`);
-  res.status(404).json({
-    success: false,
-    message: `Ruta no encontrada: ${req.originalUrl}`
-  });
-});
+// Manejo de errores (debe ser el último middleware)
+app.use(errorHandler);
 
 // Iniciar el servidor
 app.listen(PORT, () => {
