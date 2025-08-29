@@ -77,7 +77,6 @@ Abrir [http://localhost:3000](http://localhost:3000) para ver la aplicación.
 - **Mongoose** - ODM para MongoDB
 
 ### Arquitectura
-- **Patrón Repository** - Abstracción de acceso a datos
 - **Clean Code** - Código limpio y mantenible
 - **RESTful API** - Diseño de API estándar
 
@@ -109,27 +108,6 @@ gym-uct/
 | PUT | `/api/users/:id` | Actualizar usuario |
 | DELETE | `/api/users/:id` | Eliminar usuario |
 
-### Próximamente
-- `/api/reservas` - Gestión de reservas
-- `/api/salas` - Gestión de salas
-- `/api/auth` - Autenticación
-
-## 🧪 Testing
-
-### Probar Repositorios
-```bash
-cd api
-node test-repositories.js
-```
-
-### Probar API
-```bash
-# Crear usuario
-curl -X POST http://localhost:5000/api/users \
-  -H "Content-Type: application/json" \
-  -d '{"name":"Test","email":"test@uct.cl","role":"alumno"}'
-```
-
 ## 👤 Roles de Usuario
 
 - **Alumno**: Reserva horas, consulta cupos, modifica/cancela reservas
@@ -153,43 +131,6 @@ curl -X POST http://localhost:5000/api/users \
 - Sectores: pesas, máquinas
 - Capacidad y ubicación
 - Estado activo/inactivo
-
-## 🧹 Principios de Clean Code
-
-1. **Nombres significativos** - Variables y funciones autodescriptivas
-2. **Funciones pequeñas** - Una sola responsabilidad
-3. **Arquitectura modular** - Separación de capas
-4. **DRY** - No repetir código
-5. **Manejo de errores** - Feedback claro al usuario
-
-## 🚧 Roadmap
-
-- [x] Modelos de datos (User, Reserva, Sala)
-- [x] Patrón Repository
-- [x] CRUD de usuarios
-- [ ] Sistema de autenticación
-- [ ] Gestión de reservas
-- [ ] Panel administrativo
-- [ ] Integración con sistema universitario
-- [ ] Despliegue con Docker/Kubernetes
-
-## 👥 Equipo
-
-Proyecto desarrollado por equipo de 4 integrantes:
-- Frontend (Next.js)
-- Backend (Express + MongoDB)
-- Infraestructura (Docker/Kubernetes)
-- Integración y QA
-
-## 📄 Licencia
-
-Proyecto universitario - Universidad Católica de Temuco
-
-## 📚 Documentación Adicional
-
-- [Documentación API](./api/README.md)
-- [Contexto del Proyecto](./context.md)
-- [Guía de Contribución](#)
 
 ---
 
