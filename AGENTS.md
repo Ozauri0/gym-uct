@@ -47,7 +47,7 @@
 ## Security & Configuration
 
 - Do not commit `.env.local` or secrets; follow least‑privilege for DB users.
-- Validate inputs at the `interface` layer; sanitize user data.
+- ; sanitize user data.
 - Keep configuration in environment variables and document required keys in README.
 
 ## Invariantes de Arquitectura (OBLIGATORIO)
