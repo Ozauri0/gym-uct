@@ -2,11 +2,13 @@ import { useState, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import { UserLoginData } from '../types/auth'
 import { createLogInValidator } from '../utils/loginValidator'
+import { useAuth } from './useAuth'
 
 export const useLogin = () => {
     const [isLoading, setIsLoading] = useState(false)
     const [errors, setErrors] = useState<Partial<UserLoginData & { general?: string }>>({})
     const router = useRouter()
+    const { login } = useAuth()
 
     const validator = useMemo(() => createLogInValidator(), [])
 
@@ -58,14 +60,15 @@ export const useLogin = () => {
                 return false
             }
 
-            // Guardar token en localStorage para futuras requests
-            if (result.tokens?.accessToken) {
-                localStorage.setItem('accessToken', result.tokens.accessToken)
-                localStorage.setItem('user', JSON.stringify(result.user))
+            // Usar el hook de autenticación para manejar el login
+            if (result.tokens?.accessToken && result.user) {
+                login(result.user, {
+                    accessToken: result.tokens.accessToken,
+                    refreshToken: result.tokens.refreshToken
+                })
+                router.push('/')
             }
 
-            // Redirigir al dashboard o página principal
-            router.push('/')
             return true
 
         } catch (error) {

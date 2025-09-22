@@ -2,11 +2,13 @@ import { useState, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import { UserRegisterData } from '../types/auth'
 import { createRegisterValidator } from '../utils/registerValidator'
+import { useAuth } from './useAuth'
 
 export const useRegister = () => {
     const [isLoading, setIsLoading] = useState(false)
     const [errors, setErrors] = useState<Partial<UserRegisterData>>({})
     const router = useRouter()
+    const { login } = useAuth()
 
     const clearFieldError = (field: keyof UserRegisterData) => {
         setErrors(prev => ({
