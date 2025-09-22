@@ -1,6 +1,10 @@
-import { ValidationRule, UserRegisterData } from '../../types/auth'
+import { ValidationRule, UserRegisterData, UserLoginData } from '../../types/auth'
 
-export const createRequiredRule = (field: keyof UserRegisterData, message: string): ValidationRule => ({
+// Factory function genérica para reglas requeridas
+export const createRequiredRule = <T extends object>(
+    field: keyof T,
+    message: string
+): ValidationRule<T> => ({
     field,
     validate: (value: any) => {
         if (!value || (typeof value === 'string' && !value.trim())) {
@@ -10,18 +14,11 @@ export const createRequiredRule = (field: keyof UserRegisterData, message: strin
     }
 })
 
-export const createPasswordLengthRule = (minLength: number, message: string): ValidationRule => ({
-    field: 'password',
-    validate: (value: string) => {
-        if (value && value.length < minLength) {
-            return message
-        }
-        return undefined
-    }
-})
-
-export const createEmailRule = (message: string): ValidationRule => ({
-    field: 'email',
+// Factory function para validación de email (genérica)
+export const createEmailRule = <T extends { email: string }>(
+    message: string
+): ValidationRule<T> => ({
+    field: 'email' as keyof T,
     validate: (value: string) => {
         if (value && !/\S+@\S+\.\S+/.test(value)) {
             return message
@@ -30,7 +27,24 @@ export const createEmailRule = (message: string): ValidationRule => ({
     }
 })
 
-export const createConfirmPasswordRule = (message: string): ValidationRule => ({
+// Factory function para longitud de password (genérica)
+export const createPasswordLengthRule = <T extends { password: string }>(
+    minLength: number,
+    message: string
+): ValidationRule<T> => ({
+    field: 'password' as keyof T,
+    validate: (value: string) => {
+        if (value && value.length < minLength) {
+            return message
+        }
+        return undefined
+    }
+})
+
+// Factory function para confirmación de password (específica para registro)
+export const createConfirmPasswordRule = (
+    message: string
+): ValidationRule<UserRegisterData> => ({
     field: 'confirmPassword',
     validate: (value: string, formData?: UserRegisterData) => {
         if (value && formData && value !== formData.password) {
@@ -40,7 +54,10 @@ export const createConfirmPasswordRule = (message: string): ValidationRule => ({
     }
 })
 
-export const createRutFormatRule = (message: string): ValidationRule => ({
+// Factory function para formato de RUT (específica para registro)
+export const createRutFormatRule = (
+    message: string
+): ValidationRule<UserRegisterData> => ({
     field: 'rut',
     validate: (value: string) => {
         if (!value) return undefined
@@ -59,8 +76,10 @@ export const createRutFormatRule = (message: string): ValidationRule => ({
     }
 })
 
-// Validador específico del dígito verificador del RUT
-export const createRutDvRule = (message: string): ValidationRule => ({
+// Factory function para dígito verificador del RUT (específica para registro)
+export const createRutDvRule = (
+    message: string
+): ValidationRule<UserRegisterData> => ({
     field: 'rut',
     validate: (value: string) => {
         if (!value) return undefined
@@ -91,9 +110,11 @@ export const createRutDvRule = (message: string): ValidationRule => ({
     }
 })
 
-// Validador de letra mayúscula en contraseña
-export const createUpperCaseRule = (message: string): ValidationRule => ({
-    field: 'password',
+// Factory function para letra mayúscula en contraseña (genérica)
+export const createUpperCaseRule = <T extends { password: string }>(
+    message: string
+): ValidationRule<T> => ({
+    field: 'password' as keyof T,
     validate: (value: string) => {
         if (!value) return undefined
 
@@ -105,9 +126,11 @@ export const createUpperCaseRule = (message: string): ValidationRule => ({
     }
 })
 
-// Validador de punto en contraseña
-export const createDotRule = (message: string): ValidationRule => ({
-    field: 'password',
+// Factory function para punto en contraseña (genérica)
+export const createDotRule = <T extends { password: string }>(
+    message: string
+): ValidationRule<T> => ({
+    field: 'password' as keyof T,
     validate: (value: string) => {
         if (!value) return undefined
 
@@ -119,9 +142,11 @@ export const createDotRule = (message: string): ValidationRule => ({
     }
 })
 
-// Validador de símbolo en contraseña
-export const createSymbolRule = (message: string): ValidationRule => ({
-    field: 'password',
+// Factory function para símbolo en contraseña (genérica)
+export const createSymbolRule = <T extends { password: string }>(
+    message: string
+): ValidationRule<T> => ({
+    field: 'password' as keyof T,
     validate: (value: string) => {
         if (!value) return undefined
 
@@ -133,16 +158,43 @@ export const createSymbolRule = (message: string): ValidationRule => ({
     }
 })
 
-// Combinador de reglas, para usar múltiples validaciones)
-export const combineRules = (rules: ValidationRule[]): ValidationRule => ({
-    field: rules[0]?.field || 'field',
+// Factory function para número en contraseña (genérica)
+export const createNumberRule = <T extends { password: string }>(
+    message: string
+): ValidationRule<T> => ({
+    field: 'password' as keyof T,
     validate: (value: string) => {
+        if (!value) return undefined
+
+        if (!/\d/.test(value)) {
+            return message
+        }
+
+        return undefined
+    }
+})
+
+// Combinador de reglas genérico
+export const combineRules = <T extends object>(
+    rules: ValidationRule<T>[]
+): ValidationRule<T> => ({
+    field: rules[0]?.field || 'field' as keyof T,
+    validate: (value: any, formData?: T) => {
         for (const rule of rules) {
-            const error = rule.validate(value)
+            const error = rule.validate(value, formData)
             if (error) {
                 return error
             }
         }
         return undefined
     }
+})
+
+// Factory function para validación personalizada genérica
+export const createCustomRule = <T extends object>(
+    field: keyof T,
+    validateFn: (value: any, formData?: T) => string | undefined
+): ValidationRule<T> => ({
+    field,
+    validate: validateFn
 })

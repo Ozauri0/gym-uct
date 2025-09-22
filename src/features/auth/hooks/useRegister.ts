@@ -1,5 +1,3 @@
-'use client'
-
 import { useState, useMemo } from 'react'
 import { UserRegisterData } from '../types/auth'
 import { createRegisterValidator } from '../utils/registerValidator'
@@ -39,9 +37,8 @@ export const useRegister = () => {
 
         try {
             // Aquí iría la llamada a la API
-            console.log('Datos de registro:', data)
             await new Promise(resolve => setTimeout(resolve, 2000))
-            console.log('Registro exitoso')
+            alert('Registro exitoso')
         } catch (error) {
             console.error('Error en el registro:', error)
         } finally {
