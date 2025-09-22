@@ -1,38 +1,29 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { UserRegisterData } from '../types/auth'
+import { createRegisterValidator } from '../utils/registerValidator'
+
 
 export const useRegister = () => {
     const [isLoading, setIsLoading] = useState(false)
     const [errors, setErrors] = useState<Partial<UserRegisterData>>({})
 
+    const clearFieldError = (field: keyof UserRegisterData) => {
+        setErrors(prev => ({
+            ...prev,
+            [field]: undefined
+        }))
+    }
+
+    // Principio OCP - Open/Closed Principle
+    // El validador está abierto a extensión (puedo agregar nuevas reglas)
+    // pero cerrado a modificación (no necesito cambiar su código interno)
+    const validator = useMemo(() => createRegisterValidator(), [])
+
     const validateForm = (data: UserRegisterData): Partial<UserRegisterData> => {
-        const errors: Partial<UserRegisterData> = {}
-
-        if (!data.name.trim()) {
-            errors.name = 'El nombre es requerido'
-        }
-
-        if (!data.email.trim()) {
-            errors.email = 'El email es requerido'
-        } else if (!/\S+@\S+\.\S+/.test(data.email)) {
-            errors.email = 'El email no es válido'
-        }
-
-        if (!data.password) {
-            errors.password = 'La contraseña es requerida'
-        } else if (data.password.length < 6) {
-            errors.password = 'La contraseña debe tener al menos 6 caracteres'
-        }
-
-        if (!data.confirmPassword) {
-            errors.confirmPassword = 'Confirma tu contraseña'
-        } else if (data.password !== data.confirmPassword) {
-            errors.confirmPassword = 'Las contraseñas no coinciden'
-        }
-
-        return errors
+        const result = validator.validate(data)
+        return result.errors
     }
 
     const handleRegister = async (data: UserRegisterData) => {
@@ -61,6 +52,7 @@ export const useRegister = () => {
     return {
         isLoading,
         errors,
-        handleRegister
+        handleRegister,
+        clearFieldError
     }
 }
