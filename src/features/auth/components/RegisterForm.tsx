@@ -3,12 +3,16 @@
 import { useState } from 'react'
 import { UserRegisterData, RegisterFormProps } from '../types/auth'
 import { Input } from '@/shared/ui/Input'
-import { Button } from '@/shared/ui/Button'
 import { Select } from '@/shared/ui/Select'
 import { SelectValue } from '@/shared/ui/Select/types'
+import { BaseAuthForm } from './BaseAuthForm'
 
-
-export const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit, isLoading }) => {
+export const RegisterForm: React.FC<RegisterFormProps> = ({
+    onSubmit,
+    isLoading,
+    errors = {},
+    onFieldChange
+}) => {
     const [formData, setFormData] = useState<UserRegisterData>({
         name: '',
         email: '',
@@ -19,26 +23,18 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit, isLoading 
         role: ''
     })
 
-    const [errors, setErrors] = useState<Partial<UserRegisterData>>({})
-
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target
         setFormData(prev => ({
             ...prev,
             [name]: value
         }))
-        // Limpiar error cuando el usuario empiece a escribir
-        if (errors[name as keyof UserRegisterData]) {
-            setErrors(prev => ({
-                ...prev,
-                [name]: undefined
-            }))
-        }
+
+        // Notificar al padre sobre el cambio (para limpiar errores)
+        onFieldChange?.(name as keyof UserRegisterData)
     }
 
     const handleSelectChange = (value: SelectValue) => {
-        // Como es un select simple (no múltiple), value será string
-        // Convertimos a string para asegurar la compatibilidad de tipos
         const roleValue = Array.isArray(value) ? value[0] || '' : value
 
         setFormData(prev => ({
@@ -46,13 +42,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit, isLoading 
             role: roleValue
         }))
 
-        // Limpiar error cuando el usuario seleccione una opción
-        if (errors.role) {
-            setErrors(prev => ({
-                ...prev,
-                role: undefined
-            }))
-        }
+        onFieldChange?.('role')
     }
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -60,7 +50,6 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit, isLoading 
         onSubmit(formData)
     }
 
-    // Opciones para el select de roles
     const roleOptions = [
         { value: 'user', label: 'Usuario' },
         { value: 'admin', label: 'Administrador' },
@@ -69,7 +58,11 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit, isLoading 
     ]
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <BaseAuthForm
+            onSubmit={handleSubmit}
+            isLoading={isLoading}
+            submitText="Crear cuenta"
+        >
             <Input
                 label="Nombre completo"
                 type="text"
@@ -102,7 +95,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit, isLoading 
                 error={errors.rut}
                 required
             />
-            
+
             <Input
                 label="Carrera"
                 type="text"
@@ -113,7 +106,6 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit, isLoading 
                 error={errors.carrera}
                 required
             />
-
 
             <Input
                 label="Contraseña"
@@ -146,14 +138,6 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit, isLoading 
                 error={!!errors.role}
                 helperText={errors.role}
             />
-
-            <Button
-                type="submit"
-                disabled={isLoading}
-                className="w-full"
-            >
-                {isLoading ? 'Creando cuenta...' : 'Crear cuenta'}
-            </Button>
-        </form>
+        </BaseAuthForm>
     )
 }
