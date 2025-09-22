@@ -27,41 +27,63 @@ const showBanner = (config) => {
   const version = 'v1.0.0';
   const line = '='.repeat(60);
   const ipAddress = getIpAddress();
-  
+
   console.log(line.rainbow);
-  console.log(`${colors.bold.cyan('║')} ${colors.bold.green(apiName.padEnd(30))} ${colors.yellow(version.padStart(25))} ${colors.bold.cyan('║')}`);
+  console.log(
+    `${colors.bold.cyan('║')} ${colors.bold.green(apiName.padEnd(30))} ${colors.yellow(version.padStart(25))} ${colors.bold.cyan('║')}`,
+  );
   console.log(line.rainbow);
-  
+
   console.log(`\n${colors.bold.yellow('📡 INFORMACIÓN DEL SERVIDOR')}`);
   console.log(`${colors.green('┃')} Estado: ${colors.bold.green('En línea')}`);
   console.log(`${colors.green('┃')} URL: ${colors.bold.cyan(`http://localhost:${config.PORT}`)}`);
   console.log(`${colors.green('┃')} Entorno: ${colors.bold.yellow(config.NODE_ENV)}`);
   console.log(`${colors.green('┃')} Fecha: ${colors.bold.cyan(new Date().toLocaleString())}`);
-  
+
   console.log(`\n${colors.bold.yellow('🔌 ENDPOINTS DISPONIBLES')}`);
-  console.log(`${colors.green('┃')} ${colors.bold.green('GET')}    ${colors.cyan('/')}                 → Verificar estado de la API`);
-  console.log(`${colors.green('┃')} ${colors.bold.green('GET')}    ${colors.cyan('/api/users')}        → Listar todos los usuarios`);
-  console.log(`${colors.green('┃')} ${colors.bold.green('GET')}    ${colors.cyan('/api/users/:id')}    → Obtener un usuario por ID`);
-  console.log(`${colors.green('┃')} ${colors.bold.green('POST')}   ${colors.cyan('/api/users')}        → Crear un nuevo usuario`);
-  console.log(`${colors.green('┃')} ${colors.bold.green('PUT')}    ${colors.cyan('/api/users/:id')}    → Actualizar un usuario existente`);
-  console.log(`${colors.green('┃')} ${colors.bold.green('DELETE')} ${colors.cyan('/api/users/:id')}    → Eliminar un usuario`);
-  
+  console.log(
+    `${colors.green('┃')} ${colors.bold.green('GET')}    ${colors.cyan('/')}                 → Verificar estado de la API`,
+  );
+  console.log(
+    `${colors.green('┃')} ${colors.bold.green('GET')}    ${colors.cyan('/api/users')}        → Listar todos los usuarios`,
+  );
+  console.log(
+    `${colors.green('┃')} ${colors.bold.green('GET')}    ${colors.cyan('/api/users/:id')}    → Obtener un usuario por ID`,
+  );
+  console.log(
+    `${colors.green('┃')} ${colors.bold.green('POST')}   ${colors.cyan('/api/users')}        → Crear un nuevo usuario`,
+  );
+  console.log(
+    `${colors.green('┃')} ${colors.bold.green('PUT')}    ${colors.cyan('/api/users/:id')}    → Actualizar un usuario existente`,
+  );
+  console.log(
+    `${colors.green('┃')} ${colors.bold.green('DELETE')} ${colors.cyan('/api/users/:id')}    → Eliminar un usuario`,
+  );
+
   console.log(`\n${colors.bold.yellow('💻 COMANDOS ÚTILES')}`);
-  console.log(`${colors.green('┃')} ${colors.bold.cyan('npm run dev')}      → Iniciar servidor en modo desarrollo`);
-  console.log(`${colors.green('┃')} ${colors.bold.cyan('npm start')}        → Iniciar servidor en modo producción`);
-  
+  console.log(
+    `${colors.green('┃')} ${colors.bold.cyan('npm run dev')}      → Iniciar servidor en modo desarrollo`,
+  );
+  console.log(
+    `${colors.green('┃')} ${colors.bold.cyan('npm start')}        → Iniciar servidor en modo producción`,
+  );
+
   console.log(`\n${colors.bold.cyan('🔍 LOGS DE ACTIVIDAD')}`);
   console.log(`${colors.blue('ℹ')} = Información`);
   console.log(`${colors.green('✓')} = Operación exitosa`);
   console.log(`${colors.yellow('⚠')} = Advertencia`);
   console.log(`${colors.red('✖')} = Error`);
-  
+
   console.log(`\n${line.rainbow}`);
-  
+
   // Añadir enlaces de acceso a la API (local y remoto)
   console.log(`\n${colors.bold.magenta('🌐 ACCESO A LA API')}`);
-  console.log(`${colors.green('┃')} ${colors.bold.cyan('Local:')}    ${colors.bold.green(`http://localhost:${config.PORT}`)}`);
-  console.log(`${colors.green('┃')} ${colors.bold.cyan('Red local:')} ${colors.bold.green(`http://${ipAddress}:${config.PORT}`)}`);
+  console.log(
+    `${colors.green('┃')} ${colors.bold.cyan('Local:')}    ${colors.bold.green(`http://localhost:${config.PORT}`)}`,
+  );
+  console.log(
+    `${colors.green('┃')} ${colors.bold.cyan('Red local:')} ${colors.bold.green(`http://${ipAddress}:${config.PORT}`)}`,
+  );
   console.log(`\n${line.rainbow}\n`);
 };
 

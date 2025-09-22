@@ -13,7 +13,7 @@ colors.setTheme({
   success: 'green',
   warn: 'yellow',
   error: 'red',
-  highlight: 'cyan'
+  highlight: 'cyan',
 });
 
 // Cargar variables de entorno
@@ -32,7 +32,9 @@ app.use(express.urlencoded({ extended: true }));
 
 // Logger middleware
 app.use((req, res, next) => {
-  console.log(`${colors.yellow('➤')} ${colors.cyan(new Date().toISOString())} ${colors.green(req.method)} ${colors.yellow(req.url)}`);
+  console.log(
+    `${colors.yellow('➤')} ${colors.cyan(new Date().toISOString())} ${colors.green(req.method)} ${colors.yellow(req.url)}`,
+  );
   next();
 });
 
@@ -41,13 +43,13 @@ const userRoutes = require('./routes/users');
 
 // Ruta base para verificar que la API está funcionando
 app.get('/', (req, res) => {
-  res.json({ 
+  res.json({
     success: true,
     message: '¡API funcionando correctamente!',
     version: '1.0.0',
     endpoints: {
-      users: '/api/users'
-    }
+      users: '/api/users',
+    },
   });
 });
 
@@ -60,7 +62,7 @@ app.use((err, req, res, next) => {
   res.status(500).json({
     success: false,
     message: 'Error en el servidor',
-    error: config.NODE_ENV === 'development' ? err.message : {}
+    error: config.NODE_ENV === 'development' ? err.message : {},
   });
 });
 
@@ -69,7 +71,7 @@ app.use((req, res) => {
   console.log(`${colors.yellow('⚠')} Ruta no encontrada: ${req.originalUrl}`);
   res.status(404).json({
     success: false,
-    message: `Ruta no encontrada: ${req.originalUrl}`
+    message: `Ruta no encontrada: ${req.originalUrl}`,
   });
 });
 
