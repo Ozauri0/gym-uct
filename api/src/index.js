@@ -1,23 +1,23 @@
 // Exports de Domain
-const User = require('./src/domain/entities/User');
-const Email = require('./src/domain/value-objects/Email');
-const HashedPassword = require('./src/domain/value-objects/HashedPassword');
+const User = require('./domain/entities/User');
+const Email = require('./domain/value-objects/Email');
+const HashedPassword = require('./domain/value-objects/HashedPassword');
 
 // Exports de Application
-const RegisterUser = require('./src/application/use-cases/RegisterUser');
-const AuthenticateUser = require('./src/application/use-cases/AuthenticateUser');
-const RefreshSession = require('./src/application/use-cases/RefreshSession');
-const Logout = require('./src/application/use-cases/Logout');
-const RequestPasswordReset = require('./src/application/use-cases/RequestPasswordReset');
-const ResetPassword = require('./src/application/use-cases/ResetPassword');
+const RegisterUser = require('./application/use-cases/RegisterUser');
+const AuthenticateUser = require('./application/use-cases/AuthenticateUser');
+const RefreshSession = require('./application/use-cases/RefreshSession');
+const Logout = require('./application/use-cases/Logout');
+const RequestPasswordReset = require('./application/use-cases/RequestPasswordReset');
+const ResetPassword = require('./application/use-cases/ResetPassword');
 
-const PasswordPolicy = require('./src/application/policies/PasswordPolicy');
-const SecurityPolicy = require('./src/application/policies/SecurityPolicy');
+const PasswordPolicy = require('./application/policies/PasswordPolicy');
+const SecurityPolicy = require('./application/policies/SecurityPolicy');
 
 // Exports de Infrastructure
-const SystemClock = require('./src/infrastructure/adapters/SystemClock');
-const BcryptHasher = require('./src/infrastructure/adapters/BcryptHasher');
-const JwtTokenService = require('./src/infrastructure/adapters/JwtTokenService');
+const SystemClock = require('./infrastructure/adapters/SystemClock');
+const BcryptHasher = require('./infrastructure/adapters/BcryptHasher');
+const JwtTokenService = require('./infrastructure/adapters/JwtTokenService');
 
 module.exports = {
   // Domain

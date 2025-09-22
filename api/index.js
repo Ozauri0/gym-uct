@@ -40,6 +40,7 @@ app.use((req, res, next) => {
 
 // Importar rutas
 const userRoutes = require('./routes/users');
+const authRoutes = require('./routes/auth');
 
 // Ruta base para verificar que la API está funcionando
 app.get('/', (req, res) => {
@@ -49,12 +50,14 @@ app.get('/', (req, res) => {
     version: '1.0.0',
     endpoints: {
       users: '/api/users',
+      auth: '/api/auth',
     },
   });
 });
 
 // Usar rutas
 app.use('/api/users', userRoutes);
+app.use('/api/auth', authRoutes);
 
 // Manejo de errores global
 app.use((err, req, res, next) => {

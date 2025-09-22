@@ -30,6 +30,10 @@ const UserSchema = new mongoose.Schema({
       'Por favor ingresa un email válido'
     ]
   },
+  hashedPassword: {
+    type: String,
+    required: [true, 'La contraseña es obligatoria']
+  },
 
   // Info académica
   carrera: {
