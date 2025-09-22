@@ -5,20 +5,40 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "test:domain": "jest tests/domain",
+    "test:application": "jest tests/application"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "colors": "^1.4.0",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.0.0"
   },
   "devDependencies": {
-    "nodemon": "^3.0.2"
+    "jest": "^30.1.3",
+    "nodemon": "^3.1.10"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "collectCoverageFrom": [
+      "src/**/*.js",
+      "!src/**/*.test.js",
+      "!**/node_modules/**"
+    ],
+    "coverageReporters": ["text", "lcov", "html"],
+    "testMatch": [
+      "**/tests/**/*.test.js"
+    ],
+    "verbose": true
   }
 }
