@@ -42,6 +42,15 @@ app.use((req, res, next) => {
 const userRoutes = require('./routes/users');
 const authRoutes = require('./routes/auth');
 
+// Ruta de health check
+app.get('/health', (req, res) => {
+  res.status(200).json({
+    status: 'OK',
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime(),
+  });
+});
+
 // Ruta base para verificar que la API está funcionando
 app.get('/', (req, res) => {
   res.json({

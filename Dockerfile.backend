@@ -1,0 +1,32 @@
+# Dockerfile para el Backend (Node.js/Express)
+FROM node:18-alpine
+
+# Crear directorio de la aplicación
+WORKDIR /usr/src/app
+
+# Copiar archivos de dependencias
+COPY api/package*.json ./
+
+# Instalar dependencias
+RUN npm ci --only=production
+
+# Copiar código fuente
+COPY api/ .
+
+# Crear usuario no-root
+RUN addgroup -g 1001 -S nodejs
+RUN adduser -S nextjs -u 1001
+
+# Cambiar permisos del directorio
+RUN chown -R nextjs:nodejs /usr/src/app
+USER nextjs
+
+# Exponer puerto
+EXPOSE 3001
+
+# Variables de entorno por defecto
+ENV NODE_ENV=production
+ENV PORT=3001
+
+# Comando para ejecutar la aplicación
+CMD ["npm", "start"]
