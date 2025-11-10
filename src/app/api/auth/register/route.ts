@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Llamar al backend Express con arquitectura hexagonal
-    const response = await fetch(`${process.env.API_BASE_URL || 'http://localhost:5000'}/api/auth/register`, {
+    const response = await fetch(`${process.env.API_BASE_URL || 'http://backend:3001'}/api/auth/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

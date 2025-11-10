@@ -128,8 +128,5 @@ docker-compose*
 docs/
 *.md
 
-# Excluir carpeta API del build del frontend
-api/
-
 # Scripts
 start-docker.*
