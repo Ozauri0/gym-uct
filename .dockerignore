@@ -123,8 +123,13 @@ docker-compose*
 # Git
 .git
 .gitignore
-README.md
 
 # Documentación
 docs/
 *.md
+
+# Excluir carpeta API del build del frontend
+api/
+
+# Scripts
+start-docker.*

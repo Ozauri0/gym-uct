@@ -21,12 +21,16 @@ RUN \
 FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
-COPY . .
+
+# Copiar solo archivos del frontend (excluir carpeta api/)
+COPY package.json next.config.ts tsconfig.json tailwind.config.ts postcss.config.mjs ./
+COPY public/ ./public/
+COPY src/ ./src/
 
 # Next.js colecta telemetría completamente anónima sobre el uso general
 # Obtén más información aquí: https://nextjs.org/telemetry
 # Descomenta la siguiente línea en caso de que quieras desabilitar la telemetría durante el build
-# ENV NEXT_TELEMETRY_DISABLED 1
+ENV NEXT_TELEMETRY_DISABLED 1
 
 RUN \
   if [ -f yarn.lock ]; then yarn run build; \
